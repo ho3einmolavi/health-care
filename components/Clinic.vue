@@ -10,7 +10,7 @@
 
     <v-img height="250" src="/img/clinic.jpg"></v-img>
 
-    <v-card-title>Milan Clinic</v-card-title>
+    <v-card-title>{{ randomCity() }} Clinic</v-card-title>
 
     <v-card-text>
       <v-row align="center" class="mx-0">
@@ -24,7 +24,9 @@
         ></v-rating>
       </v-row>
 
-      <div class="my-4 text-subtitle-1">{{ randomClinicCategories().join(", ") }}</div>
+      <div class="my-4 text-subtitle-1">
+        {{ randomClinicCategories().join(", ") }}
+      </div>
 
       <div>
         You need good healthcare. Most of all, you need a trusted resource who
@@ -67,6 +69,20 @@ export default {
     return {
       loading: false,
       selection: [],
+      cities: [
+        "Milan",
+        "Rome",
+        "Padova",
+        "Turin",
+        "Florence",
+        "Genoa",
+        "Bologna",
+        "Naples",
+        "Bari",
+        "Pisa",
+        "Catania",
+        "venice",
+      ],
       categories: [
         "Dentist",
         "Psychologist",
@@ -103,6 +119,10 @@ export default {
 
     randomClinicCategories() {
       return this.categories.sort(() => 0.5 - Math.random()).slice(0, 2);
+    },
+
+    randomCity() {
+      return this.cities[Math.floor(Math.random() * this.cities.length)];
     },
   },
 };
