@@ -15,22 +15,20 @@
     <v-card-text>
       <v-row align="center" class="mx-0">
         <v-rating
-          :value="4.5"
+          :value="randomRating()"
           color="amber"
           dense
           half-increments
           readonly
           size="14"
         ></v-rating>
-
-        <div class="grey--text ms-4">4.5 (413)</div>
       </v-row>
 
-      <div class="my-4 text-subtitle-1">Dentists, psychology</div>
+      <div class="my-4 text-subtitle-1">{{ randomClinicCategories().join(", ") }}</div>
 
       <div>
-        Small plates, salads & sandwiches - an intimate setting with 12 indoor
-        seats plus patio seating.
+        You need good healthcare. Most of all, you need a trusted resource who
+        can give you a clear picture of your overall health.
       </div>
     </v-card-text>
 
@@ -69,6 +67,25 @@ export default {
     return {
       loading: false,
       selection: [],
+      categories: [
+        "Dentist",
+        "Psychologist",
+        "Surgeon",
+        "Cardiologist",
+        "Neurologist",
+        "Dermatologist",
+        "Ophthalmologist",
+        "Oncologist",
+        "Endocrinologist",
+        "Gastroenterologist",
+        "Urologist",
+        "Brain Surgeon",
+        "Otolaryngologist",
+        "Pulmonologist",
+        "Rheumatologist",
+        "Osteopath",
+        "Orthopedist",
+      ],
     };
   },
   methods: {
@@ -77,6 +94,15 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 2000);
+    },
+
+    randomRating(min = 1, max = 5) {
+      // return Math.floor(Math.random() * to) + from;
+      return (Math.random() * (max - min) + min).toFixed(1);
+    },
+
+    randomClinicCategories() {
+      return this.categories.sort(() => 0.5 - Math.random()).slice(0, 2);
     },
   },
 };

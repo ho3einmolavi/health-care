@@ -47,6 +47,7 @@ export default {
     login() {
       const { email } = this;
       console.log(email + "logged in");
+      this.$router.push("/");
     },
   },
 };
