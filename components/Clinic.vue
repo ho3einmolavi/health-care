@@ -10,7 +10,7 @@
 
     <v-img height="250" src="/img/clinic.jpg"></v-img>
 
-    <v-card-title>{{ randomCity() }} Clinic</v-card-title>
+    <v-card-title>{{ clinic.name }} Clinic</v-card-title>
 
     <v-card-text>
       <v-row align="center" class="mx-0">
@@ -25,7 +25,7 @@
       </v-row>
 
       <div class="my-4 text-subtitle-1">
-        {{ randomClinicCategories().join(", ") }}
+        {{ clinic.categories.join(", ") }}
       </div>
 
       <div>
@@ -44,18 +44,12 @@
         active-class="deep-purple accent-4 white--text"
         column
       >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
+        <v-chip v-for="(hour, index) in clinic.openHours" :key="index">{{hour}}</v-chip>
       </v-chip-group>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="reserve">
+      <v-btn color="deep-purple lighten-2" text @click="reserve" :loading="loading">
         Reserve
       </v-btn>
     </v-card-actions>
@@ -65,6 +59,9 @@
 <script>
 export default {
   name: "Clinic",
+  props: {
+    clinic: Object,
+  },
   data() {
     return {
       loading: false,
@@ -113,8 +110,7 @@ export default {
     },
 
     randomRating(min = 1, max = 5) {
-      // return Math.floor(Math.random() * to) + from;
-      return (Math.random() * (max - min) + min).toFixed(1);
+      return parseInt((Math.random() * (max - min) + min).toFixed(1));
     },
 
     randomClinicCategories() {

@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-sgMail.setApiKey("");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 function sendVerificationEmail(user) {
