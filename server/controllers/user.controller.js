@@ -10,7 +10,7 @@ const signup = async (req, res) => {
         }
         const user = await User.create(req.body)
 
-        // utils.sendVerificationEmail(user)
+        utils.sendVerificationEmail(user)
 
         res.status(201).json({
             message: 'User created successfully',
