@@ -154,7 +154,6 @@ export default {
           this.loading = false;
           console.log(response.data);
           localStorage.setItem("id", response.data.user._id);
-          localStorage.setItem("code", response.data.user.verificationCode);
           this.$router.push("/verify");
         })
         .catch((error) => {

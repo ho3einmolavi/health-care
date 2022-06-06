@@ -10,7 +10,9 @@ function sendVerificationEmail(user) {
         from: 'hasan.jahanifar@studenti.unipd.it',
         subject: 'Verify your email',
         text: `Hi ${user.name}. Please verify your email`,
-        html: `<strong>${user.verificationCode}</strong>`,
+        html: `<p>Hi ${user.name}. Please verify your email</p>
+                </br>
+                <strong>${user.verificationCode}</strong>`,
     };
     sgMail.send(msg);
 }

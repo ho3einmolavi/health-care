@@ -49,7 +49,7 @@ export default {
       error: false,
       error_message: "",
       loading: false,
-      verificationCode: localStorage.getItem("code"),
+      verificationCode: null,
     };
   },
   methods: {

@@ -28,6 +28,14 @@
               >Login</v-btn
             >
           </form>
+          <v-snackbar v-model="error" timeout="3000">
+            {{ error_message }}
+            <template v-slot:action="{ attrs }">
+              <v-btn color="blue" text v-bind="attrs" @click="error = false">
+                Close
+              </v-btn>
+            </template>
+          </v-snackbar>
         </v-card-text>
       </v-card>
     </v-col>
@@ -39,15 +47,31 @@ export default {
   name: "Login",
   data() {
     return {
+      loading: false,
+      error: false,
+      error_message: "",
       email: "",
       password: "",
     };
   },
   methods: {
     login() {
-      const { email } = this;
-      console.log(email + "logged in");
-      this.$router.push("/");
+      this.loading = true;
+      this.$axios
+        .post("http://localhost:5000/api/user/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          this.loading = false;
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          this.loading = false;
+          this.error = true;
+          this.error_message = error.response.data.message;
+        });
     },
   },
 };

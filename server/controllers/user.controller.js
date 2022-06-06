@@ -73,7 +73,7 @@ const login = async (req, res) => {
         const is_password_match = await utils.comparePassword(req.body.password, user.password);
         if (!is_password_match) {
             return res.status(400).json({
-                message: 'Invalid password'
+                message: 'Invalid password or email'
             })
         }
 
