@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config();
 // const DB_URL = 'mongodb+srv://Hossein:h0OSRYuYzP2VDKg5@cluster0.rhgxg.mongodb.net/health_care?retryWrites=true&w=majority'
-const DB_URL = 'mongodb://localhost:27017/health_care'
+const DB_URL = process.env.DB_URL
 const app = express()
 
 app.use(express.json())

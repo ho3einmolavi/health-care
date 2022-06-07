@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      v-if="loggedIn"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -29,9 +30,25 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
 
-      <v-btn depressed color="error" @click="logout" type="button">
+      <v-btn
+        v-if="loggedIn"
+        depressed
+        color="error"
+        @click="logout"
+        type="button"
+      >
         Log out
       </v-btn>
+      <!-- <nuxt-link to="/signup">
+        <v-btn v-if="!loggedIn" depressed color="primary"> Sign up </v-btn>
+      </nuxt-link>
+      <nuxt-link to="/login">
+        <v-btn v-if="!loggedIn" depressed color="secondary"> Login </v-btn>
+      </nuxt-link> -->
+      <v-btn-toggle rounded v-else>
+        <v-btn depressed color="primary" to="/signup"> Sign up </v-btn>
+        <v-btn depressed color="success" to="/login"> Login </v-btn>
+      </v-btn-toggle>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -46,6 +63,7 @@ export default {
   name: "DefaultLayout",
   data() {
     return {
+      loggedIn: false,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -68,19 +86,20 @@ export default {
   methods: {
     checkUser() {
       if (!localStorage.getItem("id")) {
+        this.loggedIn = false;
         if (this.$route.path !== "/login" && this.$route.path !== "/signup") {
           this.$router.push("/login");
         }
-      } else if (
-        this.$route.path === "/login" ||
-        this.$route.path === "/signup"
-      ) {
-        this.$router.push("/");
+      } else {
+        this.loggedIn = true;
+        if (this.$route.path === "/login" || this.$route.path === "/signup") {
+          this.$router.push("/");
+        }
       }
     },
     logout() {
       localStorage.removeItem("id");
-      location = '/login'
+      location = "/login";
     },
   },
 };

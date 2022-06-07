@@ -63,7 +63,7 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          this.$router.push("/");
+          location = '/'
         })
         .catch((error) => {
           console.log(error);

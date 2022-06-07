@@ -68,7 +68,7 @@ export default {
         .then((response) => {
           this.loading = false;
           localStorage.setItem("id", response.data.user._id);
-          this.$router.push("/");
+          location = '/'
         })
         .catch((error) => {
           console.log(error.response.data);
