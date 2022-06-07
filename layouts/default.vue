@@ -39,12 +39,6 @@
       >
         Log out
       </v-btn>
-      <!-- <nuxt-link to="/signup">
-        <v-btn v-if="!loggedIn" depressed color="primary"> Sign up </v-btn>
-      </nuxt-link>
-      <nuxt-link to="/login">
-        <v-btn v-if="!loggedIn" depressed color="secondary"> Login </v-btn>
-      </nuxt-link> -->
       <v-btn-toggle rounded v-else>
         <v-btn depressed color="primary" to="/signup"> Sign up </v-btn>
         <v-btn depressed color="success" to="/login"> Login </v-btn>
