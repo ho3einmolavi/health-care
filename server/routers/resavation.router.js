@@ -12,6 +12,6 @@ router.post('/', (req, res, next) => {
         })
     }
 }, resavaionController.create)
-router.get('/:userId', resavaionController.userResavation)
+router.get('/:userId', resavaionController.getUserResavations)
 
 module.exports = router

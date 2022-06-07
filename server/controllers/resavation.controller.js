@@ -2,7 +2,14 @@ const Resavation = require('../models/resavation.model')
 const Clinic = require('../models/clinic.model')
 const create = async (req, res) => {
     try {
+        const userReservation = await Resavation.find({date: req.body.date})
+        if (userReservation.length > 0) {
+            return res.status(400).json({
+                message: 'You already have a reservation for this date'
+            })
+        }
         const resavation = await Resavation.create(req.body)
+
         res.status(201).json({
             message: 'Resavation created successfully',
             resavation
@@ -16,7 +23,7 @@ const create = async (req, res) => {
     }
 }
 
-const userResavation = async (req, res) => {
+const getUserResavations = async (req, res) => {
     try {
         let resavations = await Resavation.find({ userId: req.params.userId })
         const clinics_promises = resavations.map((resavation) => {
@@ -45,5 +52,5 @@ const userResavation = async (req, res) => {
 
 module.exports = {
     create,
-    userResavation
+    getUserResavations
 }
