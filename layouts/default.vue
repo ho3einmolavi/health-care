@@ -80,7 +80,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("id");
-      this.$router.push("/login");
+      location = '/login'
     },
   },
 };

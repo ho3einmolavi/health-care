@@ -98,12 +98,12 @@ export default {
       }
       this.loading = true;
       const now = new Date().toLocaleDateString("en-CA");
-      const date = `${now} ${this.selection}`;
+      const date = `${now}T${this.selection}:00`;
       this.$axios
         .post("http://localhost:5000/api/resevation", {
           clinicId: this.clinic._id,
           userId: localStorage.getItem("id"),
-          date: new Date(date),
+          date,
         })
         .then((response) => {
           this.$router.push('/reservations');

@@ -2,12 +2,12 @@
   <v-row justify="center">
     <v-expansion-panels inset>
       <v-expansion-panel
-        v-for="(item,i) in 5"
+        v-for="(item,i) in reservations"
         :key="i"
       >
-        <v-expansion-panel-header>today</v-expansion-panel-header>
+        <v-expansion-panel-header>{{new Date(item.date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})  }} At {{new Date(item.date).getHours()}}:{{new Date(item.date).getMinutes()}}</v-expansion-panel-header>
         <v-expansion-panel-content>
-          you book a meeting with Dr.Ja for today
+          you book a meeting with {{item.clinic.name}} clinic
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -33,7 +33,7 @@ export default {
     getReservations() {
       this.$axios.get(`http://localhost:5000/api/resevation/${localStorage.getItem('id')}`)
       .then((response) => {
-        console.log(response.data)
+        this.reservations = response.data.resavations
       }).catch((error) => {
         console.log(error.response)
       })
