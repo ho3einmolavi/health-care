@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -67,8 +66,8 @@ UserSchema.methods.toJSON = function () {
 
 UserSchema.pre('save', async function (next) {
     this.verificationCode = Math.floor(Math.random() * 1000000);
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password.toString(), salt);
+    // const salt = await bcrypt.genSalt();
+    // this.password = await bcrypt.hash(this.password.toString(), salt);
     next();
 })
 

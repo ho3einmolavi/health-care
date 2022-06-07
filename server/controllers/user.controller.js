@@ -70,21 +70,40 @@ const login = async (req, res) => {
             })
         }
 
-        const is_password_match = await utils.comparePassword(req.body.password, user.password);
-        if (!is_password_match) {
+        if (user.password !== req.body.password) {
             return res.status(400).json({
                 message: 'Invalid password or email'
             })
         }
 
-        const accessToken = utils.assignAccessToken(user)
+        // const accessToken = utils.assignAccessToken(user)
 
         res.status(200).json({
             message: 'User logged in successfully',
-            accessToken
+            user
         })
 
 
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: 'something went wrong',
+        })
+    }
+}
+
+const getUser = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.userId })
+        if (!user) {
+            return res.status(400).json({
+                message: 'User not found'
+            })
+        }
+        res.status(200).json({
+            message: 'User found',
+            user
+        })
     } catch (error) {
         console.error(error)
         res.status(500).json({
@@ -97,5 +116,6 @@ const login = async (req, res) => {
 module.exports = {
     signup,
     verifyEmail,
+    getUser,
     login
 }

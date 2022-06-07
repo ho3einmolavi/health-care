@@ -44,15 +44,34 @@
         active-class="deep-purple accent-4 white--text"
         column
       >
-        <v-chip v-for="(hour, index) in clinic.openHours" :key="index">{{hour}}</v-chip>
+        <v-chip
+          v-for="(hour, index) in clinic.openHours"
+          :key="index"
+          :value="hour"
+          >{{ hour }}</v-chip
+        >
       </v-chip-group>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="reserve" :loading="loading">
+      <v-btn
+        color="deep-purple lighten-2"
+        text
+        @click="reserve"
+        :loading="loading"
+      >
         Reserve
       </v-btn>
     </v-card-actions>
+
+    <v-snackbar v-model="error" timeout="3000">
+      {{ error_message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="error = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -66,59 +85,38 @@ export default {
     return {
       loading: false,
       selection: [],
-      cities: [
-        "Milan",
-        "Rome",
-        "Padova",
-        "Turin",
-        "Florence",
-        "Genoa",
-        "Bologna",
-        "Naples",
-        "Bari",
-        "Pisa",
-        "Catania",
-        "venice",
-      ],
-      categories: [
-        "Dentist",
-        "Psychologist",
-        "Surgeon",
-        "Cardiologist",
-        "Neurologist",
-        "Dermatologist",
-        "Ophthalmologist",
-        "Oncologist",
-        "Endocrinologist",
-        "Gastroenterologist",
-        "Urologist",
-        "Brain Surgeon",
-        "Otolaryngologist",
-        "Pulmonologist",
-        "Rheumatologist",
-        "Osteopath",
-        "Orthopedist",
-      ],
+      error: false,
+      error_message: "",
     };
   },
   methods: {
     reserve() {
+      if (this.selection.length === 0) {
+        this.error = true;
+        this.error_message = "Please select an hour";
+        return;
+      }
       this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 2000);
+      const now = new Date().toLocaleDateString("en-CA");
+      const date = `${now} ${this.selection}`;
+      this.$axios
+        .post("http://localhost:5000/api/resevation", {
+          clinicId: this.clinic._id,
+          userId: localStorage.getItem("id"),
+          date: new Date(date),
+        })
+        .then((response) => {
+          this.$router.push('/reservations');
+        })
+        .catch((error) => {
+          this.error = true;
+          this.error_message = error.response.data.message;
+          this.loading = false;
+        });
     },
 
     randomRating(min = 1, max = 5) {
       return parseInt((Math.random() * (max - min) + min).toFixed(1));
-    },
-
-    randomClinicCategories() {
-      return this.categories.sort(() => 0.5 - Math.random()).slice(0, 2);
-    },
-
-    randomCity() {
-      return this.cities[Math.floor(Math.random() * this.cities.length)];
     },
   },
 };

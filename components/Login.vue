@@ -27,6 +27,9 @@
             <v-btn type="submit" class="mt-4" color="primary" value="log in"
               >Login</v-btn
             >
+            <!-- <nuxt-link to="/signup" class="mt-4">
+              Signup
+            </nuxt-link> -->
           </form>
           <v-snackbar v-model="error" timeout="3000">
             {{ error_message }}
@@ -64,6 +67,7 @@ export default {
         })
         .then((response) => {
           this.loading = false;
+          localStorage.setItem("id", response.data.user._id);
           this.$router.push("/");
         })
         .catch((error) => {

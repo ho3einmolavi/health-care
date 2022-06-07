@@ -17,5 +17,27 @@
 <script>
 export default {
   name: "reservation",
+
+  data() {
+    return {
+      reservations: [],
+      loading: false,
+    }
+  },
+
+  created() {
+    this.getReservations()
+  },
+
+  methods: {
+    getReservations() {
+      this.$axios.get(`http://localhost:5000/api/resevation/${localStorage.getItem('id')}`)
+      .then((response) => {
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error.response)
+      })
+    }
+  }
 };
 </script>
