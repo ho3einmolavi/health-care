@@ -2,8 +2,8 @@ const Resavation = require('../models/resavation.model')
 const Clinic = require('../models/clinic.model')
 const create = async (req, res) => {
     try {
-        const userReservation = await Resavation.find({date: req.body.date})
-        if (userReservation.length > 0) {
+        const userReservations = await Resavation.find({date: req.body.date, userId: req.body.userId})
+        if (userReservations.length > 0) {
             return res.status(400).json({
                 message: 'You already have a reservation for this date'
             })
@@ -50,7 +50,24 @@ const getUserResavations = async (req, res) => {
     }
 }
 
+const deleteReservation = async (req, res) => {
+    try {
+        const resavation = await Resavation.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            message: 'Resavation deleted successfully',
+            resavation
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: 'something went wrong',
+            error
+        })
+    }
+}
+
 module.exports = {
     create,
-    getUserResavations
+    getUserResavations,
+    deleteReservation
 }

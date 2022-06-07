@@ -13,5 +13,6 @@ router.post('/', (req, res, next) => {
     }
 }, resavaionController.create)
 router.get('/:userId', resavaionController.getUserResavations)
+router.delete('/:id', resavaionController.deleteReservation)
 
 module.exports = router
